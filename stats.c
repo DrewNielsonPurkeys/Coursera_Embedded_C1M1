@@ -39,7 +39,9 @@ void main() {
 
   /* Other Variable Declarations Go Here */
   /* Statistics and Printing Functions Go Here */
-
+  sort_array(test, SIZE);           //sort array before printing
+  print_array(test, SIZE);          //print descending order array to screen
+  print_statistics(test, SIZE);     //print statistics of array
 }
 
 /**
@@ -51,8 +53,12 @@ void main() {
  *
  * @return nothing
  */
-void print_statistics(char * array) {
-
+void print_statistics(unsigned char* array, unsigned int len) {
+  printf("\r\n Minimum: %-u", find_minimum(array, len));
+  printf("\r\n Maximum: %-u", find_maximum(array, len));
+  printf("\r\n Median:  %-u", find_median(array, len));
+  printf("\r\n Mean:    %-u", find_mean(array, len));
+  printf("\r\n\r\n");
 }
 
 /**
@@ -63,10 +69,21 @@ void print_statistics(char * array) {
  * @param array Pointer to char data array
  * @param len Length of char data array
  *
- * @return nothing
+ * @return nothingprintf("\r\n");
  */
-void print_array(char* array, unsigned int len) {
+void print_array(unsigned char* array, unsigned int len) {
 
+  char idx = 0;
+  
+  printf("\r\n Descending Order Data Array:\r\n");
+  for (idx = 0; idx < len; idx++) {
+    
+    if (idx % 5 == 0) {
+      printf("\r\n ");
+    }
+    printf("%3u, ", array[idx]);
+  }
+  printf("\r\n");
 }
 
 /**
@@ -79,7 +96,21 @@ void print_array(char* array, unsigned int len) {
  *
  * @return char median value
  */
-char find_median(char* array, unsigned int len) {
+unsigned char find_median(unsigned char* array, unsigned int len) {
+  
+  unsigned int temp = 0;
+  
+  sort_array(array, len);   //sort array to be sure
+  
+  if (len % 2 == 0) {
+    temp = array[len/2] + array[(len/2) + 1];
+    temp = temp/2;
+  }
+  else {
+    temp = array[len/2];
+  }
+  
+  return temp;
 
 }
 
@@ -93,8 +124,17 @@ char find_median(char* array, unsigned int len) {
  *
  * @return char mean value
  */
-char find_mean(char* array, unsigned int len) {
-
+unsigned char find_mean(unsigned char* array, unsigned int len) {
+  unsigned int sum = 0;
+  unsigned int idx = 0;
+  
+  sort_array(array, len);   //sort array to be sure
+  
+  for (idx = 0; idx < len; idx++) {
+    sum += array[idx];
+  }
+  
+  return (char)sum/len;
 }
 /**
  * @brief Find maximum value of char data array
@@ -106,8 +146,10 @@ char find_mean(char* array, unsigned int len) {
  *
  * @return char maximum value
  */
-char find_maximum(char* array, unsigned int len) {
-
+unsigned char find_maximum(unsigned char* array, unsigned int len) {
+  
+  sort_array(array, len);   //sort array to be sure
+  return array[0];
 }
 
 /**
@@ -120,8 +162,10 @@ char find_maximum(char* array, unsigned int len) {
  *
  * @return char minimum value
  */
-char find_minimum(char* array, unsigned int len) {
-
+unsigned char find_minimum(unsigned char* array, unsigned int len) {
+  
+  sort_array(array, len);   //sort array to be sure
+  return array[len-1];
 }
 
 /**
@@ -136,6 +180,20 @@ char find_minimum(char* array, unsigned int len) {
  *
  * @return nothing
  */
-void sort_array(char* array, unsigned int len) {
+void sort_array(unsigned char* array, unsigned int len) {
+  
+  unsigned int idx_i = 0;
+  unsigned int idx_j = 0;
+  unsigned char temp = 0;
+  
+  for (idx_i = 0; idx_i < len; idx_i++) {
+    for (idx_j = 0; idx_j < len - idx_i - 1; idx_j++) {
+      if (array[idx_j] < array[idx_j + 1]) {
+        temp = array[idx_j];              //keep lesser value
+        array[idx_j] = array[idx_j + 1];  //higher value goes "left" in array
+        array[idx_j + 1] = temp;          //lesser value goes "right" in array
+      }
+    }
+  }
 
 }
