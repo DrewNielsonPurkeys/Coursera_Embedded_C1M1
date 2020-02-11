@@ -134,7 +134,7 @@ unsigned char find_mean(unsigned char* array, unsigned int len) {
     sum += array[idx];
   }
   
-  return (char)sum/len;
+  return sum/len;
 }
 /**
  * @brief Find maximum value of char data array
